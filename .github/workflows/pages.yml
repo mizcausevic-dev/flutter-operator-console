@@ -1,0 +1,58 @@
+name: pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.44.0
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test
+      - run: flutter build web --release
+      - name: Copy static SEO pages
+        shell: bash
+        run: |
+          cp CNAME build/web/CNAME
+          mkdir -p build/web/docs build/web/verification
+          cp static/docs/index.html build/web/docs/index.html
+          cp static/verification/index.html build/web/verification/index.html
+          TODAY=$(date -u +%Y-%m-%d)
+          DOMAIN=$(tr -d '[:space:]' < CNAME)
+          printf 'User-agent: *\nAllow: /\nSitemap: https://%s/sitemap.xml\n' "$DOMAIN" > build/web/robots.txt
+          cat > build/web/sitemap.xml <<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://$DOMAIN/</loc><lastmod>$TODAY</lastmod></url>
+  <url><loc>https://$DOMAIN/docs/</loc><lastmod>$TODAY</lastmod></url>
+  <url><loc>https://$DOMAIN/verification/</loc><lastmod>$TODAY</lastmod></url>
+</urlset>
+EOF
+          cp build/web/index.html build/web/404.html
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/web
+      - id: deployment
+        uses: actions/deploy-pages@v4

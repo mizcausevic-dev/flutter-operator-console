@@ -1,0 +1,35 @@
+{
+    "name": "Flutter Operator Console",
+    "short_name": "FGOC",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#05070c",
+    "theme_color": "#05070c",
+    "description": "Flutter web operator shell for queue health, offline packets, handoff proof, and mobile-safe Kinetic Gain workflows.",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "icons/Icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/Icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}
