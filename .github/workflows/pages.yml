@@ -41,14 +41,13 @@ jobs:
           TODAY=$(date -u +%Y-%m-%d)
           DOMAIN=$(tr -d '[:space:]' < CNAME)
           printf 'User-agent: *\nAllow: /\nSitemap: https://%s/sitemap.xml\n' "$DOMAIN" > build/web/robots.txt
-          cat > build/web/sitemap.xml <<EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://$DOMAIN/</loc><lastmod>$TODAY</lastmod></url>
-  <url><loc>https://$DOMAIN/docs/</loc><lastmod>$TODAY</lastmod></url>
-  <url><loc>https://$DOMAIN/verification/</loc><lastmod>$TODAY</lastmod></url>
-</urlset>
-EOF
+          printf '%s\n' \
+            '<?xml version="1.0" encoding="UTF-8"?>' \
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' \
+            "  <url><loc>https://$DOMAIN/</loc><lastmod>$TODAY</lastmod></url>" \
+            "  <url><loc>https://$DOMAIN/docs/</loc><lastmod>$TODAY</lastmod></url>" \
+            "  <url><loc>https://$DOMAIN/verification/</loc><lastmod>$TODAY</lastmod></url>" \
+            '</urlset>' > build/web/sitemap.xml
           cp build/web/index.html build/web/404.html
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
