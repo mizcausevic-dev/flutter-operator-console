@@ -17,16 +17,16 @@ Flutter web operator shell for queue health, offline packets, handoff proof, and
 ## Local development
 
 ```powershell
-& 'C:\Users\chaus\tools\flutter-sdk\flutter\bin\flutter.bat' pub get
-& 'C:\Users\chaus\tools\flutter-sdk\flutter\bin\flutter.bat' run -d chrome
+flutter pub get
+flutter run -d chrome
 ```
 
 ## Validation
 
 ```powershell
-& 'C:\Users\chaus\tools\flutter-sdk\flutter\bin\flutter.bat' analyze
-& 'C:\Users\chaus\tools\flutter-sdk\flutter\bin\flutter.bat' test
-& 'C:\Users\chaus\tools\flutter-sdk\flutter\bin\flutter.bat' build web --release
+flutter analyze
+flutter test
+flutter build web --release
 ```
 
 ## Why this matters
